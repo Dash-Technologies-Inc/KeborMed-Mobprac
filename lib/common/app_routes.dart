@@ -1,11 +1,14 @@
 import 'package:get/get.dart';
+import 'package:kebormed_mobile/ui/home_screen.dart';
 import 'package:kebormed_mobile/ui/login_screen.dart';
 
 class AppRoutes{
   static const login = '/login';
+  static const home = '/home';
 
   static final routes = [
     GetPage(name: login, page: () => LoginScreen()),
+    GetPage(name: home, page: () => HomeScreen()),
   ];
 
 }

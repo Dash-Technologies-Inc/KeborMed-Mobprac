@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:kebormed_mobile/common/labels.dart';
 import 'package:kebormed_mobile/utils/session/preference.dart';
 import 'package:equatable/equatable.dart';
 
@@ -24,9 +25,9 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     String email = event.emailController.text.trim();
     String password = event.passwordController.text.trim();
 
-    String? emailError = email.isEmpty ? 'Username cannot be empty' : null;
+    String? emailError = email.isEmpty ? Labels.userNameErrorMessage : null;
 
-    String? passwordError = password.isEmpty ? 'Password cannot be empty' : null;
+    String? passwordError = password.isEmpty ? Labels.passwordErrorMessage : null;
 
     if (emailError != null || passwordError != null) {
       emit(state.copyWith(emailError: emailError, passwordError: passwordError));
@@ -43,7 +44,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       await Preference.setToken(token);
       emit(state.copyWith(error: null));
     } else {
-      emit(state.copyWith(error: "Incorrect credentials"));
+      emit(state.copyWith(error: Labels.incorrectCredentialsMessage));
     }
   }
 }

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 import 'package:kebormed_mobile/blocs/login/login_bloc.dart';
 import 'package:kebormed_mobile/common/app_dimens.dart';
+import 'package:kebormed_mobile/common/app_routes.dart';
 import 'package:kebormed_mobile/common/labels.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -28,7 +30,7 @@ class LoginScreen extends StatelessWidget {
           child: BlocConsumer<LoginBloc, LoginState>(
             listener: (context, state) {
               if (state.error == null && state.emailError == null && state.passwordError == null) {
-                //Get.offAll(HomeScreen());
+                Get.offAllNamed(AppRoutes.home);
               } else if (state.error != null) {
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(content: Text(state.error!)),
@@ -91,7 +93,10 @@ class LoginScreen extends StatelessWidget {
                         onPressed: () {
                           bloc.add(LoginSubmitted(_emailController, _passwordController)); // Pass controllers
                         },
-                        child: Text('Login',style: theme.textTheme.bodyLarge!.copyWith(color: theme.colorScheme.onPrimary),),
+                        child: Text(
+                          'Login',
+                          style: theme.textTheme.bodyLarge!.copyWith(color: theme.colorScheme.onPrimary),
+                        ),
                       ),
                     ),
                   ],
