@@ -5,7 +5,7 @@ class AppRoutes{
   static const login = '/login';
 
   static final routes = [
-    GetPage(name: login, page: () => const LoginScreen()),
+    GetPage(name: login, page: () => LoginScreen()),
   ];
 
 }
