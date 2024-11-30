@@ -10,7 +10,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class LoginScreen extends StatelessWidget {
   LoginScreen({super.key});
 
-  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
   @override
@@ -26,15 +26,18 @@ class LoginScreen extends StatelessWidget {
         ),
       ),
       body: BlocProvider(
-          create: (_) => LoginBloc(),
+          create: (_) => LoginBloc()..add(LoadSavedCredentials()),
           child: BlocConsumer<LoginBloc, LoginState>(
             listener: (context, state) {
-              if (state.error == null && state.emailError == null && state.passwordError == null) {
+              if (state.loginSuccess) {
                 Get.offAllNamed(AppRoutes.home);
               } else if (state.error != null) {
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(content: Text(state.error!)),
                 );
+              }else if(state.loadSavedCredential){
+                _usernameController.text = state.username!;
+                _passwordController.text = state.password!;
               }
             },
             builder: (context, state) {
@@ -53,11 +56,11 @@ class LoginScreen extends StatelessWidget {
                     TextField(
                       textInputAction: TextInputAction.next,
                       style: theme.textTheme.bodyLarge,
-                      controller: _emailController,
+                      controller: _usernameController,
                       decoration: InputDecoration(
                         labelStyle: theme.textTheme.bodyLarge?.copyWith(color: theme.colorScheme.onSurfaceVariant),
                         labelText: Labels.email,
-                        errorText: state.emailError, // Error on button click
+                        errorText: state.usernameError, // Error on button click
                       ),
                     ),
                     SizedBox(height: AppDimens.padding16),
@@ -91,10 +94,10 @@ class LoginScreen extends StatelessWidget {
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(backgroundColor: theme.colorScheme.primary),
                         onPressed: () {
-                          bloc.add(LoginSubmitted(_emailController, _passwordController)); // Pass controllers
+                          bloc.add(LoginSubmitted(_usernameController.text.trim(), _passwordController.text.trim(),state.rememberMe)); // Pass controllers
                         },
                         child: Text(
-                          'Login',
+                          Labels.loginLabel,
                           style: theme.textTheme.bodyLarge!.copyWith(color: theme.colorScheme.onPrimary),
                         ),
                       ),

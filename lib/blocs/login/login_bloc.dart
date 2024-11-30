@@ -13,6 +13,7 @@ part 'login_state.dart';
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
   LoginBloc() : super(LoginState()) {
     on<ToggleRememberMe>(_toggleRemember);
+    on<LoadSavedCredentials>(_loadSavedCredentials);
     on<LoginSubmitted>(_login);
   }
 
@@ -20,29 +21,38 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     emit(state.copyWith(rememberMe: !state.rememberMe));
   }
 
+  void _loadSavedCredentials(LoadSavedCredentials event, Emitter<LoginState> emit) {
+    final username = Preference.getRememberEmail();
+    final password = Preference.getRememberPassword();
+    final rememberMe = Preference.getRemember();
+
+    emit(state.copyWith(username: username, password: password, rememberMe: rememberMe, loadSavedCredential: rememberMe));
+  }
+
   void _login(LoginSubmitted event, Emitter<LoginState> emit) async {
     // Validate input fields
-    String email = event.emailController.text.trim();
-    String password = event.passwordController.text.trim();
+    String username = event.username;
+    String password = event.password;
 
-    String? emailError = email.isEmpty ? Labels.userNameErrorMessage : null;
+    String? usernameError = username.isEmpty ? Labels.userNameErrorMessage : null;
 
     String? passwordError = password.isEmpty ? Labels.passwordErrorMessage : null;
 
-    if (emailError != null || passwordError != null) {
-      emit(state.copyWith(emailError: emailError, passwordError: passwordError));
+    if (usernameError != null || passwordError != null) {
+      emit(state.copyWith(usernameError: usernameError, passwordError: passwordError));
       return;
     }
 
     // Dummy authentication
-    if (email == "test" && password == "Test@123") {
+    if (username == "test" && password == "Test@123") {
+      await Preference.setRemember(state.rememberMe);
       if (state.rememberMe) {
-        await Preference.setRememberEmail(email);
+        await Preference.setRememberEmail(username);
         await Preference.setRememberPassword(password);
       }
       String token = generateRandomToken(32);
       await Preference.setToken(token);
-      emit(state.copyWith(error: null));
+      emit(state.copyWith(error: null, loginSuccess: true));
     } else {
       emit(state.copyWith(error: Labels.incorrectCredentialsMessage));
     }

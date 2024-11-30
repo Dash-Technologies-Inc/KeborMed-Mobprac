@@ -3,6 +3,7 @@ import 'package:get_storage/get_storage.dart';
 class Preference {
   static GetStorage? box;
   static const sbPreference = "kebormed_preference";
+  static const keyRemember = 'key_remember';
   static const keyRememberEmail = 'key_remember_email';
   static const keyRememberPassword = 'key_remember_password';
   static const keyToken = 'key_token';
@@ -22,6 +23,18 @@ class Preference {
       return cx;
     }
     return "";
+  }
+
+  static setRemember(bool remember) async {
+    box?.write(keyRemember, remember);
+  }
+
+  static bool getRemember() {
+    if (box != null && box!.hasData(keyRemember)) {
+      bool cx = box!.read(keyRemember);
+      return cx;
+    }
+    return false;
   }
 
   static setRememberEmail(String email) async {

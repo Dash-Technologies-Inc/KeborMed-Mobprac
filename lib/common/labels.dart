@@ -9,4 +9,10 @@ class Labels{
   static const String passwordErrorMessage = "Password cannot be empty";
   static const String incorrectCredentialsMessage = "Incorrect credentials";
   static const String userLabel = "Users";
+  static const String userDetailLabel = "User Details";
+  static const String username = "Username";
+  static const String phoneLabel = "Phone";
+  static const String websiteLabel = "Website";
+  static const String addressLabel = "Address";
+  static const String companyLabel = "Company";
 }

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
 import 'package:kebormed_mobile/blocs/users/users_bloc.dart';
+import 'package:kebormed_mobile/common/app_routes.dart';
 import 'package:kebormed_mobile/data/network/api_response.dart';
 import 'package:kebormed_mobile/data/repositories/users_repository.dart';
 
@@ -52,7 +54,9 @@ class HomeScreen extends StatelessWidget {
                           child: ListTile(
                             title: Text(user.name!), // Title of the movie
                             subtitle: Text(user.email!),
-                            onTap: () {}, // Network of the movie
+                            onTap: () {
+                              Get.toNamed(AppRoutes.userDetails,arguments: [user]);
+                            }, // Network of the movie
                           ),
                         );
                       }),

@@ -18,4 +18,8 @@ class AppDimens {
   //Images
   static const imageLogo = 100.0;
 
+  //Radius
+  static const avatarRadius = 40.0;
+  static const cardRadius = 12.0;
+
 }
