@@ -7,7 +7,7 @@ import '../common/labels.dart';
 import '../data/models/user_model.dart';
 
 class UserDetailScreen extends StatelessWidget {
-  const UserDetailScreen({Key? key}) : super(key: key);
+  const UserDetailScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

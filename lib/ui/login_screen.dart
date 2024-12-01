@@ -6,7 +6,6 @@ import 'package:kebormed_mobile/common/app_dimens.dart';
 import 'package:kebormed_mobile/common/app_routes.dart';
 import 'package:kebormed_mobile/common/labels.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import '../common/common_text_field.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -34,7 +33,6 @@ class LoginScreen extends StatelessWidget {
               if (state.loginSuccess) {
                 Get.offAllNamed(AppRoutes.home);
               } else if (state.error != null) {
-                print(state.toString());
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(content: Text(state.error!)),
                 );
