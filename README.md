@@ -1,16 +1,24 @@
 # kebormed_mobile
 
-A new Flutter project.
+This Flutter application demonstrates the implementation of a splash screen, login functionality with state management using BLoC, and navigation to a user list and details page.
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+### Prerequisites
+- Install [Flutter](https://flutter.dev/docs/get-started/install) on your machine.
+- Ensure your editor (e.g., VS Code or Android Studio) is set up with Flutter plugins.
 
-A few resources to get you started if this is your first Flutter project:
+### Running the App
+1. Clone the repository:
+   git clone https://github.com/Dash-Technologies-Inc/KeborMed-Mobprac.git
+   cd <project_directory>
+2. Install dependencies:
+   flutter pub get
+3. Run the app:
+   flutter run
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+**Demo credentials**
+Use the following credentials to log in:
+Username: test
+Password: Test@123
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
