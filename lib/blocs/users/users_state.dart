@@ -14,5 +14,9 @@ class UsersState extends Equatable {
   // TODO: implement props
   List<Object?> get props => [userList];
 
+  factory UsersState.initial() {
+    return UsersState(userList: ApiResponse.loading());
+  }
+
 }
 

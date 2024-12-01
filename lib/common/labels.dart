@@ -15,4 +15,7 @@ class Labels{
   static const String websiteLabel = "Website";
   static const String addressLabel = "Address";
   static const String companyLabel = "Company";
+  static const String retryLabel = "Retry";
+  static const String errorLabel = "An error occurred";
+  static const String noDataLabel = "No data found";
 }

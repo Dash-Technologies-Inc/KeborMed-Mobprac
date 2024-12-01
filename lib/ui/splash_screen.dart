@@ -4,26 +4,16 @@ import 'package:kebormed_mobile/common/app_dimens.dart';
 import 'package:kebormed_mobile/common/app_routes.dart';
 import '../common/images.dart';
 
-class SplashScreen extends StatefulWidget {
+class SplashScreen extends StatelessWidget {
   const SplashScreen({super.key});
 
   @override
-  State<SplashScreen> createState() => _SplashScreenState();
-}
-
-class _SplashScreenState extends State<SplashScreen> {
-  @override
-  void initState() {
-    super.initState();
-
-    // Wait for 2 seconds before navigating to the Login screen
+  Widget build(BuildContext context) {
+    // Navigate to the login screen after 2 seconds
     Future.delayed(const Duration(seconds: 2), () {
       Get.offAllNamed(AppRoutes.login);
     });
-  }
 
-  @override
-  Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
         child: SizedBox(

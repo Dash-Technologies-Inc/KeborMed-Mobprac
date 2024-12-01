@@ -11,7 +11,7 @@ part 'users_state.dart';
 class UsersBloc extends Bloc<UsersEvent, UsersState> {
   UsersRepository usersRepository;
 
-  UsersBloc({required this.usersRepository}) : super(UsersState(userList: ApiResponse.loading())) {
+  UsersBloc({required this.usersRepository}) : super(UsersState.initial()) {
     on<UsersFetch>(fetchUserApiCall);
   }
 

@@ -4,6 +4,7 @@ class LoginState extends Equatable {
   final bool rememberMe;
   final bool loadSavedCredential;
   final bool loginSuccess;
+  final bool isLoading;
   final String? username;
   final String? password;
   final String? usernameError;
@@ -14,6 +15,7 @@ class LoginState extends Equatable {
     this.rememberMe = false,
     this.loadSavedCredential = false,
     this.loginSuccess = false,
+    this.isLoading = false,
     this.username,
     this.password,
     this.usernameError,
@@ -25,6 +27,7 @@ class LoginState extends Equatable {
     bool? rememberMe,
     bool? loadSavedCredential,
     bool? loginSuccess,
+    bool? isLoading,
     String? username,
     String? password,
     String? usernameError,
@@ -35,15 +38,16 @@ class LoginState extends Equatable {
       rememberMe: rememberMe ?? this.rememberMe,
       loadSavedCredential: loadSavedCredential ?? this.loadSavedCredential,
       loginSuccess: loginSuccess ?? this.loginSuccess,
+      isLoading: isLoading ?? this.isLoading,
       username: username ?? this.username,
       password: password ?? this.password,
-      usernameError: usernameError ?? this.usernameError,
-      passwordError: passwordError ?? this.passwordError,
-      error: error ?? this.error,
+      usernameError: usernameError,
+      passwordError: passwordError,
+      error: error,
     );
   }
 
   @override
   // TODO: implement props
-  List<Object?> get props => [rememberMe, loadSavedCredential, loginSuccess, username, password, usernameError, passwordError, error];
+  List<Object?> get props => [rememberMe, loadSavedCredential, loginSuccess, isLoading, username, password, usernameError, passwordError, error];
 }

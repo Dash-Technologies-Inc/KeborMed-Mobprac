@@ -16,7 +16,8 @@ class AppDimens {
   static const padding20 = 20.0;
 
   //Images
-  static const imageLogo = 100.0;
+  static const imageLogo = 130.0;
+  static const iconSize = 60.0;
 
   //Radius
   static const avatarRadius = 40.0;

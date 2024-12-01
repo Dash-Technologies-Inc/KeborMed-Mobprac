@@ -18,43 +18,48 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   }
 
   void _toggleRemember(ToggleRememberMe event, Emitter<LoginState> emit) {
-    emit(state.copyWith(rememberMe: !state.rememberMe));
+    emit(state.copyWith(rememberMe: !state.rememberMe, loadSavedCredential: false, error: null,usernameError: state.usernameError,passwordError: state.passwordError));
   }
 
   void _loadSavedCredentials(LoadSavedCredentials event, Emitter<LoginState> emit) {
     final username = Preference.getRememberEmail();
     final password = Preference.getRememberPassword();
     final rememberMe = Preference.getRemember();
-
-    emit(state.copyWith(username: username, password: password, rememberMe: rememberMe, loadSavedCredential: rememberMe));
+    emit(state.copyWith(username: username, password: password, rememberMe: rememberMe, loadSavedCredential: true));
   }
 
   void _login(LoginSubmitted event, Emitter<LoginState> emit) async {
+    // Reset any previous error state and indicate loading
+    emit(state.copyWith(isLoading: true, usernameError: null, passwordError: null, error: null, loadSavedCredential: false));
+
     // Validate input fields
-    String username = event.username;
-    String password = event.password;
-
-    String? usernameError = username.isEmpty ? Labels.userNameErrorMessage : null;
-
-    String? passwordError = password.isEmpty ? Labels.passwordErrorMessage : null;
-
-    if (usernameError != null || passwordError != null) {
-      emit(state.copyWith(usernameError: usernameError, passwordError: passwordError));
+    final errors = _validateInput(event.username, event.password);
+    if (errors['usernameError'] != null || errors['passwordError'] != null) {
+      emit(state.copyWith(isLoading: false, usernameError: errors['usernameError'], passwordError: errors['passwordError']));
       return;
     }
 
     // Dummy authentication
+    String username = event.username;
+    String password = event.password;
+    await Future.delayed(const Duration(seconds: 1)); // Simulate API call delay
     if (username == "test" && password == "Test@123") {
       await Preference.setRemember(state.rememberMe);
       if (state.rememberMe) {
         await Preference.setRememberEmail(username);
         await Preference.setRememberPassword(password);
       }
-      String token = generateRandomToken(32);
-      await Preference.setToken(token);
-      emit(state.copyWith(error: null, loginSuccess: true));
+      await Preference.setToken(generateRandomToken(32));
+      emit(state.copyWith(isLoading: false, loginSuccess: true));
     } else {
-      emit(state.copyWith(error: Labels.incorrectCredentialsMessage));
+      emit(state.copyWith(isLoading: false, error: Labels.incorrectCredentialsMessage));
     }
+  }
+
+  Map<String, String?> _validateInput(String username, String password) {
+    return {
+      'usernameError': username.isEmpty ? Labels.userNameErrorMessage : null,
+      'passwordError': password.isEmpty ? Labels.passwordErrorMessage : null,
+    };
   }
 }

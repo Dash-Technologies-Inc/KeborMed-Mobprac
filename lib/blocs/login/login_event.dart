@@ -7,8 +7,7 @@ class ToggleRememberMe extends LoginEvent {}
 class LoginSubmitted extends LoginEvent {
   final String username;
   final String password;
-  final bool rememberMe;
-  LoginSubmitted(this.username, this.password,this.rememberMe);
+  LoginSubmitted(this.username, this.password);
 }
 
 class LoadSavedCredentials extends LoginEvent {}

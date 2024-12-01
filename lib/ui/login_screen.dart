@@ -7,6 +7,8 @@ import 'package:kebormed_mobile/common/app_routes.dart';
 import 'package:kebormed_mobile/common/labels.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../common/common_text_field.dart';
+
 class LoginScreen extends StatelessWidget {
   LoginScreen({super.key});
 
@@ -32,16 +34,18 @@ class LoginScreen extends StatelessWidget {
               if (state.loginSuccess) {
                 Get.offAllNamed(AppRoutes.home);
               } else if (state.error != null) {
+                print(state.toString());
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(content: Text(state.error!)),
                 );
-              }else if(state.loadSavedCredential){
-                _usernameController.text = state.username!;
-                _passwordController.text = state.password!;
               }
             },
             builder: (context, state) {
               final bloc = context.read<LoginBloc>();
+              if (state.loadSavedCredential) {
+                _usernameController.text = state.username ?? '';
+                _passwordController.text = state.password ?? '';
+              }
               return Padding(
                 padding: const EdgeInsets.all(AppDimens.padding16),
                 child: Column(
@@ -53,26 +57,18 @@ class LoginScreen extends StatelessWidget {
                       style: theme.textTheme.titleLarge,
                     ),
                     SizedBox(height: AppDimens.padding16),
-                    TextField(
-                      textInputAction: TextInputAction.next,
-                      style: theme.textTheme.bodyLarge,
+                    CommonTextField(
                       controller: _usernameController,
-                      decoration: InputDecoration(
-                        labelStyle: theme.textTheme.bodyLarge?.copyWith(color: theme.colorScheme.onSurfaceVariant),
-                        labelText: Labels.email,
-                        errorText: state.usernameError, // Error on button click
-                      ),
+                      labelText: Labels.email,
+                      errorText: state.usernameError??"",
+                      textInputAction: TextInputAction.next,
                     ),
                     SizedBox(height: AppDimens.padding16),
-                    TextField(
+                    CommonTextField(
                       textInputAction: TextInputAction.done,
-                      style: theme.textTheme.bodyLarge,
+                      labelText: Labels.password,
+                      errorText: state.passwordError??"",
                       controller: _passwordController,
-                      decoration: InputDecoration(
-                        labelStyle: theme.textTheme.bodyLarge?.copyWith(color: theme.colorScheme.onSurfaceVariant),
-                        labelText: Labels.password,
-                        errorText: state.passwordError, // Error on button click
-                      ),
                       obscureText: true,
                     ),
                     SizedBox(height: AppDimens.padding16),
@@ -90,16 +86,25 @@ class LoginScreen extends StatelessWidget {
                     ),
                     SizedBox(height: AppDimens.padding20),
                     SizedBox(
-                      width: double.maxFinite,
+                      width: double.infinity,
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(backgroundColor: theme.colorScheme.primary),
-                        onPressed: () {
-                          bloc.add(LoginSubmitted(_usernameController.text.trim(), _passwordController.text.trim(),state.rememberMe)); // Pass controllers
-                        },
-                        child: Text(
-                          Labels.loginLabel,
-                          style: theme.textTheme.bodyLarge!.copyWith(color: theme.colorScheme.onPrimary),
-                        ),
+                        onPressed: state.isLoading
+                            ? null
+                            : () {
+                                bloc.add(LoginSubmitted(
+                                  _usernameController.text.trim(),
+                                  _passwordController.text.trim(),
+                                ));
+                              },
+                        child: state.isLoading
+                            ? CircularProgressIndicator(color: theme.colorScheme.onPrimary)
+                            : Text(
+                                Labels.loginLabel,
+                                style: theme.textTheme.bodyLarge!.copyWith(
+                                  color: theme.colorScheme.onPrimary,
+                                ),
+                              ),
                       ),
                     ),
                   ],
