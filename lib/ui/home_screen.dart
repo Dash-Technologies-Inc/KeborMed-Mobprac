@@ -49,6 +49,7 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
+  //error widget for displaying error message and retry option
   Widget errorWidget(BuildContext context, UsersState state) {
     final theme = Theme.of(context);
     return Center(
@@ -74,6 +75,7 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
+  //no data widget when api will not provide data
   Widget noDataWidget(BuildContext context) {
     final theme = Theme.of(context);
     return Center(
@@ -91,6 +93,7 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
+  //user list widget
   Widget listWidget(BuildContext context, List<User> userList) {
     final theme = Theme.of(context);
     return RefreshIndicator(

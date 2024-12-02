@@ -15,10 +15,13 @@ class UsersBloc extends Bloc<UsersEvent, UsersState> {
     on<UsersFetch>(fetchUserApiCall);
   }
 
+  //Initiate fetch user api call
   Future<void> fetchUserApiCall(UsersFetch event, Emitter<UsersState> emit) async {
     await usersRepository.fetchUsers().then((response) {
+      //receiving success response
       emit(state.copyWith(userList: ApiResponse.completed(response)));
     }).onError((error, stackTrace) {
+      //receiving error
       emit(state.copyWith(userList: ApiResponse.error(error.toString())));
     });
   }

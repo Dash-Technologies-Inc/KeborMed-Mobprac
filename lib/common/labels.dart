@@ -18,4 +18,11 @@ class Labels{
   static const String retryLabel = "Retry";
   static const String errorLabel = "An error occurred";
   static const String noDataLabel = "No data found";
+  static const String unauthoriseMessage = "Authentication credentials are missing or invalid.";
+  static const String badrequestMessage = "The request was missing required parameters.";
+  static const String serverErrorMessage = "An unexpected error occurred. Please try again later.";
+  static const String requestNotMessage = "The requested resource was not found.";
+  static const String defaultErrorMessage = "Error occured while communicating with server";
+  static const String internetErrorMessage = "Internet connectivity is not stable";
+  static const String timeoutErrorMessage = "Network Request time out";
 }

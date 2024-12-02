@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:kebormed_mobile/common/constants.dart';
 import 'package:kebormed_mobile/common/labels.dart';
 import 'package:kebormed_mobile/utils/session/preference.dart';
 import 'package:equatable/equatable.dart';
@@ -15,10 +16,12 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     on<LoginSubmitted>(_login);
   }
 
+  //rememberMe toggle handle comment
   void _toggleRemember(ToggleRememberMe event, Emitter<LoginState> emit) {
     emit(state.copyWith(rememberMe: !state.rememberMe, loadSavedCredential: false, error: null,usernameError: state.usernameError,passwordError: state.passwordError));
   }
 
+  //load saved credential event
   void _loadSavedCredentials(LoadSavedCredentials event, Emitter<LoginState> emit) {
     final username = Preference.getRememberEmail();
     final password = Preference.getRememberPassword();
@@ -26,6 +29,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     emit(state.copyWith(username: username, password: password, rememberMe: rememberMe, loadSavedCredential: true));
   }
 
+  //login event
   void _login(LoginSubmitted event, Emitter<LoginState> emit) async {
     // Reset any previous error state and indicate loading
     emit(state.copyWith(isLoading: true, usernameError: null, passwordError: null, error: null, loadSavedCredential: false));
@@ -41,7 +45,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     String username = event.username;
     String password = event.password;
     await Future.delayed(const Duration(seconds: 1)); // Simulate API call delay
-    if (username == "test" && password == "Test@123") {
+    if (username == AppConstants.demoUserName && password == AppConstants.demoPassword) {
       await Preference.setRemember(state.rememberMe);
       if (state.rememberMe) {
         await Preference.setRememberEmail(username);
@@ -54,6 +58,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     }
   }
 
+  //validate the inputs
   Map<String, String?> _validateInput(String username, String password) {
     return {
       'usernameError': username.isEmpty ? Labels.userNameErrorMessage : null,

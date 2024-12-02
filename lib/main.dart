@@ -30,7 +30,7 @@ void main() async{
           debugShowCheckedModeBanner: false,
           title: Labels.appName,
           theme: AppTheme.lightTheme,
-          home: const SplashScreen(),
+          initialRoute: AppRoutes.splash,
           getPages: AppRoutes.routes,
           defaultTransition: transition,
           transitionDuration: transitionDuration),

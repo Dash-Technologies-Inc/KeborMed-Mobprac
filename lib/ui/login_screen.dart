@@ -31,8 +31,10 @@ class LoginScreen extends StatelessWidget {
           child: BlocConsumer<LoginBloc, LoginState>(
             listener: (context, state) {
               if (state.loginSuccess) {
+                //navigate to dashboard after login success
                 Get.offAllNamed(AppRoutes.home);
               } else if (state.error != null) {
+                //Display error message
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(content: Text(state.error!)),
                 );
@@ -41,6 +43,7 @@ class LoginScreen extends StatelessWidget {
             builder: (context, state) {
               final bloc = context.read<LoginBloc>();
               if (state.loadSavedCredential) {
+                //storing saved username and password in text field controller
                 _usernameController.text = state.username ?? '';
                 _passwordController.text = state.password ?? '';
               }
@@ -58,14 +61,14 @@ class LoginScreen extends StatelessWidget {
                     CommonTextField(
                       controller: _usernameController,
                       labelText: Labels.email,
-                      errorText: state.usernameError??"",
+                      errorText: state.usernameError ?? "",
                       textInputAction: TextInputAction.next,
                     ),
                     SizedBox(height: AppDimens.padding16),
                     CommonTextField(
                       textInputAction: TextInputAction.done,
                       labelText: Labels.password,
-                      errorText: state.passwordError??"",
+                      errorText: state.passwordError ?? "",
                       controller: _passwordController,
                       obscureText: true,
                     ),

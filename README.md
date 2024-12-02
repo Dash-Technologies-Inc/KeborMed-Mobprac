@@ -17,6 +17,10 @@ This Flutter application demonstrates the implementation of a splash screen, log
 3. Run the app:
    flutter run
 
+This project has been tested and is compatible with the following Flutter version:
+Flutter SDK: >=3.24.5
+Dart: >=3.5.4
+
 **Demo credentials**
 Use the following credentials to log in:
 Username: test

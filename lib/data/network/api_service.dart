@@ -4,6 +4,9 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:kebormed_mobile/common/constants.dart';
+import 'package:kebormed_mobile/common/labels.dart';
+
+import '../../utils/session/preference.dart';
 
 /// Class for handling network API requests.
 class NetworkApiService {
@@ -13,12 +16,17 @@ class NetworkApiService {
     }
     dynamic responseJson;
     try {
-      final response = await http.get(Uri.parse(url)).timeout(const Duration(seconds: AppConstants.apiTimeOut));
-      responseJson = returnResponse(response);
+      //check the authentication
+      if(!checkAuthentication()){
+        throw Labels.unauthoriseMessage;
+      }else {
+        final response = await http.get(Uri.parse(url)).timeout(const Duration(seconds: AppConstants.apiTimeOut));
+        responseJson = returnResponse(response);
+      }
     } on SocketException {
-      throw "Internet connectivity is not stable";
+      throw Labels.internetErrorMessage;
     } on TimeoutException {
-      throw 'Network Request time out';
+      throw Labels.timeoutErrorMessage;
     }
     if (kDebugMode) {
       print(responseJson);
@@ -26,6 +34,7 @@ class NetworkApiService {
     return responseJson;
   }
 
+  //return response based on status code
   dynamic returnResponse(http.Response response) {
     if (kDebugMode) {
       print(response.statusCode);
@@ -35,15 +44,21 @@ class NetworkApiService {
         dynamic responseJson = jsonDecode(response.body);
         return responseJson;
       case 400:
-        dynamic responseJson = jsonDecode(response.body);
-        return responseJson;
+        throw Labels.badrequestMessage;
       case 401:
-        throw 'Unauthorised request';
+        throw Labels.unauthoriseMessage;
       case 500:
+        throw Labels.serverErrorMessage;
       case 404:
-        throw 'Invalid Input';
+        throw Labels.requestNotMessage;
       default:
-        throw 'Error occured while communicating with server';
+        throw Labels.defaultErrorMessage;
     }
+  }
+
+  //check the token is missing or not for dummy authentication
+  bool checkAuthentication(){
+    var token = Preference.getToken();
+    return token.isEmpty ? false : true;
   }
 }

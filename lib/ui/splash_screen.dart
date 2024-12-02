@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:kebormed_mobile/common/app_dimens.dart';
 import 'package:kebormed_mobile/common/app_routes.dart';
+import 'package:kebormed_mobile/common/constants.dart';
 import '../common/images.dart';
 
 class SplashScreen extends StatelessWidget {
@@ -10,7 +11,7 @@ class SplashScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Navigate to the login screen after 2 seconds
-    Future.delayed(const Duration(seconds: 2), () {
+    Future.delayed(const Duration(seconds: AppConstants.splashScreenDelayed), () {
       Get.offAllNamed(AppRoutes.login);
     });
 
